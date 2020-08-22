@@ -12,7 +12,8 @@ export class Root extends Component {
         showPopup :false,
         updateFields:{},
         loader:false,
-        nodata:true
+        nodata:true,
+        dateValdation: false
 }
 
     componentDidMount(){
@@ -64,8 +65,10 @@ deleteHandler=(id)=>{
 
 selectedDateRange =(startDate,endDate)=>{
 if(null ==  startDate && null == endDate){
-    return <div>No data</div>;
+    this.setState({dateValdation:true})
+    return;
 } 
+this.setState({dateValdation:false})
 
 axios.get("http://localhost:8080/api/v1/sms/selectRange?start_date="+this.GetFormattedDate(startDate)+
         "&end_date="+this.GetFormattedDate(endDate)).then(res=>{
@@ -100,6 +103,7 @@ GetFormattedDate(date) {
         updateHandler={this.updateHandler}
         deleteHandler={this.deleteHandler}
         loader ={this.state.loader}
+       
         />
         if(this.state.nodata){
             data =<div> <h4>No Data Found </h4></div>
@@ -107,7 +111,7 @@ GetFormattedDate(date) {
 
         return (
             <div>
-                  <SearchbyDates sortByDates={this.selectedDateRange}/>
+                  <SearchbyDates sortByDates={this.selectedDateRange}  dateValdation ={this.state.dateValdation}/>
                   {data}
             </div>
         )

@@ -19,6 +19,10 @@ function SearchbyDates(props) {
         </DatePicker>       
      
           <button onClick={()=>props.sortByDates(startDate,endDate)}>Search</button>
+        {props.dateValdation?
+        <p>Please select the dates</p>    :null
+        }
+
         </div>
     )
 }
